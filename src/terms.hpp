@@ -11,6 +11,8 @@ private:
     int numberOfDC;
     int numberOfZero;
 
+    bool used;
+
     void expand(int, vector<Terms> &);
     friend bool can_merge(const Terms &, const Terms &);
     friend Terms merge(const Terms &, const Terms &);
@@ -19,10 +21,14 @@ private:
     friend bool cmpOrder(const Terms &, const Terms &);
 
 public:
-    Terms() { minterms = ""; }
+    Terms() {
+        minterms = "";
+        used = false;
+    }
     Terms(string s) {
         minterms = s;
         numberOfDC = numberOfOne = numberOfZero = 0;
+        used = false;
         for (int i = 0; i < minterms.length(); ++i) {
             if (minterms[i] == DONT_CARE) {
                 numberOfDC++;
@@ -64,6 +70,10 @@ public:
         // TODO:
         return !(*this == rhs);
     }
+
+    void use() { used = true; }
+    bool is_unused() { return !used; }
+    int get_literal_count() { return numberOfOne + numberOfZero; }
 };
 
 bool cmpGroup(const Terms &, const Terms &);
