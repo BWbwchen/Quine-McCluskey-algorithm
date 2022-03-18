@@ -34,7 +34,8 @@ scoring: prepare_input execute
 	$(Q)cd verifier && ./verify.sh case00
 
 prepare_input: 
-	$(Q)cp output/*.out verifier/
+	$(Q) -rm verifier/*.out
+	$(Q) -cp output/*.out verifier/
 
 test:
 	$(VECHO) " TEST\t$@\n"
