@@ -15,7 +15,7 @@ else
 endif
 
 
-all: clean execute
+all: clean scoring
 
 clean :
 	$(VECHO) " CLEAN\tpa1\n"
@@ -26,9 +26,15 @@ pa1 :
 	$(Q)$(CC) $(LIB) src/main.cpp -o $@ 
 
 execute: pa1
-	$(VECHO) " EXECUTE\t$<\n"
+	$(VECHO) " EXE\t$<\n"
 	$(Q) $(PROFILE) ./$< testcases/case00.in output/case00.out
-	$(Q)cat output/case00.out
+
+scoring: prepare_input execute
+	$(VECHO) " SCORE\t pa1\n"
+	$(Q)cd verifier && ./verify.sh case00
+
+prepare_input: 
+	$(Q)cp output/*.out verifier/
 
 test:
 	$(VECHO) " TEST\t$@\n"
