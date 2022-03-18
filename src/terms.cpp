@@ -1,7 +1,7 @@
 #include "terms.hpp"
 using namespace std;
 
-void Terms::expand(int index, vector<Terms> &ans) {
+void Terms::expand(int index, vTerms ans) {
     if (index >= minterms.length()) {
         ans.push_back(Terms(minterms));
         return;
@@ -51,7 +51,7 @@ bool cmpOrder(const Terms &lhs, const Terms &rhs) {
 }
 
 // Need sorted vector
-void remove_duplicate(vector<Terms> &v) {
+void remove_duplicate(vTerms v) {
     vector<Terms>::iterator it;
     it = std::unique(v.begin(), v.end());
     v.resize(std::distance(v.begin(), it));

@@ -2,6 +2,7 @@
 #include "terms.hpp"
 using namespace std;
 
+
 class QM {
 private:
     int number_of_variable;
@@ -12,12 +13,12 @@ private:
     vector<Terms> prime_implicant;
     int expand_minterms_size;
 
-    void expand_terms(vector<Terms> &, vector<Terms> &);
-    void group_minterms();
-    void k_map();
-    void collect_unused_prime_implicant();
-    int get_literal_count(vector<Terms> &);
-    friend void remove_duplicate(vector<Terms> &);
+    void expand_terms(vTerms, vTerms);
+    void group_minterms(vTerms, vvTerms);
+    void k_map(vvTerms, vTerms);
+    void collect_unused_prime_implicant(vvTerms, vTerms);
+    int get_literal_count(vTerms);
+    friend void remove_duplicate(vTerms);
 
 public:
     QM(int nv) {
@@ -41,9 +42,9 @@ public:
         remove_duplicate(expand_minterms);
 
         sort(expand_minterms.begin(), expand_minterms.end(), cmpGroup);
-        group_minterms();
+        group_minterms(expand_minterms, implicant);
 
-        k_map();
+        k_map(implicant, prime_implicant);
     }
 
     void Minmum_covering() {

@@ -2,8 +2,6 @@ CC = g++
 CFLAGS = -O1 -g -Wall -Werror
 
 LIB = src/qm.cpp src/terms.cpp
-# PROFILE = time
-PROFILE =
 
 # Control the build verbosity
 ifeq ("$(VERBOSE)","1")
@@ -13,6 +11,13 @@ else
     Q := @
     VECHO = @printf
 endif
+
+ifeq ("$(PROFILE)","1")
+    PF := @time
+else
+	PF := 
+endif
+
 
 
 all: clean scoring
@@ -27,7 +32,8 @@ pa1 :
 
 execute: pa1
 	$(VECHO) " EXE\t$<\n"
-	$(Q) $(PROFILE) ./$< testcases/case00.in output/case00.out
+	$(Q) $(PF) ./$< testcases/case00.in output/case00.out
+	$(Q) cat output/case00.out
 
 scoring: prepare_input execute
 	$(VECHO) " SCORE\t pa1\n"

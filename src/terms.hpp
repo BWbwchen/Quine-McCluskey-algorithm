@@ -3,6 +3,15 @@
 using namespace std;
 #define DONT_CARE '-'
 
+class Terms;
+
+using vTerms = vector<Terms> &;
+using vvTerms = vector<vector<Terms>> &;
+
+bool cmpGroup(const Terms &, const Terms &);
+bool cmpOrder(const Terms &, const Terms &);
+void remove_duplicate(vTerms);
+
 class Terms {
 private:
     string minterms;
@@ -13,10 +22,10 @@ private:
 
     bool used;
 
-    void expand(int, vector<Terms> &);
+    void expand(int, vTerms);
     friend bool can_merge(const Terms &, const Terms &);
     friend Terms merge(const Terms &, const Terms &);
-    friend void remove_duplicate(vector<Terms> &);
+    friend void remove_duplicate(vTerms);
     friend bool cmpGroup(const Terms &, const Terms &);
     friend bool cmpOrder(const Terms &, const Terms &);
 
@@ -75,7 +84,3 @@ public:
     bool is_unused() { return !used; }
     int get_literal_count() { return numberOfOne + numberOfZero; }
 };
-
-bool cmpGroup(const Terms &, const Terms &);
-bool cmpOrder(const Terms &, const Terms &);
-void remove_duplicate(vector<Terms> &);
