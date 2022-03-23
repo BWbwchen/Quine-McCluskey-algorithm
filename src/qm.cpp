@@ -1,4 +1,5 @@
 #include "qm.hpp"
+#include <algorithm>
 using namespace std;
 
 void QM::expand_terms(vTerms input, vTerms output) {
@@ -84,4 +85,70 @@ int QM::get_literal_count(vTerms v) {
         ans += t.get_literal_count();
     }
     return ans;
+}
+
+void QM::petrick_method(vTerms p_implicant, vTerms e_implicant) {
+    // value -> {id of prime implicant}
+    unordered_map<int, vector<int>> ptable;
+    vector<Terms> tmp;
+    // implicant id -> how many value it contribute
+    vector<int> contribution;
+    vector<bool> included(p_implicant.size(), false);
+
+    for (int i = 0; i < p_implicant.size(); ++i) {
+        tmp = p_implicant[i].expand_dont_care();
+        contribution.push_back(tmp.size());
+        for (auto t : tmp) {
+            int key = t.getValue();
+            if (ptable.count(key) != 0) {
+                ptable[key].push_back(i);
+            } else {
+                ptable[key] = {i};
+            }
+        }
+    }
+
+    // find the implicant that MUST in the essential implicant
+    vector<int> to_delete;
+    for (auto _p : ptable) {
+        auto v = _p.first;
+        auto &terms = _p.second;
+        if (terms.size() == 1) {
+            if (!included[terms[0]]) {
+                e_implicant.push_back(p_implicant[terms[0]]);
+                // cout << "push " << terms[0] << endl;
+                included[terms[0]] = true;
+            }
+            to_delete.push_back(v);
+        }
+    }
+
+    for (auto r : to_delete) {
+        for (auto i : ptable[r]) {
+            contribution[i]--;
+        }
+        ptable.erase(r);
+    }
+
+    // find the implicant that maybe in the essential implicant
+    while (!ptable.empty()) {
+        int max_contributor =
+            max_element(contribution.begin(), contribution.end()) -
+            contribution.begin();
+        if (!included[max_contributor]) {
+            e_implicant.push_back(p_implicant[max_contributor]);
+            // cout << "push in while " << max_contributor << endl;
+            included[max_contributor] = true;
+        }
+        tmp = p_implicant[max_contributor].expand_dont_care();
+
+        for (auto r : tmp) {
+            for (auto i : ptable[r.getValue()]) {
+                contribution[i]--;
+            }
+            ptable.erase(r.getValue());
+        }
+    }
+
+    return;
 }

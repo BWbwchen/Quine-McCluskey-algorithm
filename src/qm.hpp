@@ -11,6 +11,7 @@ private:
     vector<Terms> expand_minterms;
     vector<vector<Terms>> implicant;
     vector<Terms> prime_implicant;
+    vector<Terms> essential_implicant;
     int expand_minterms_size;
 
     void expand_terms(vTerms, vTerms);
@@ -18,6 +19,7 @@ private:
     void k_map(vvTerms, vTerms);
     void collect_unused_prime_implicant(vvTerms, vTerms);
     int get_literal_count(vTerms);
+    void petrick_method(vTerms, vTerms);
     friend void remove_duplicate(vTerms);
 
 public:
@@ -49,6 +51,13 @@ public:
 
     void Minmum_covering() {
         // TODO:
+        // petrick_method(prime_implicant, essential_implicant);
+        // vector[binary represent][which minterms] = x
+        // check vector[i] == 1
+        //      yes, include vector[i]'s minterms
+        //          mark done the minterms contain vector[i]
+        // Choose the max number of minterms
+        //
     }
 
 
@@ -73,7 +82,10 @@ public:
 
         cout << get_literal_count(prime_implicant) << endl;
         cout << prime_implicant.size() << endl;
+        // cout << get_literal_count(essential_implicant) << endl;
+        // cout << essential_implicant.size() << endl;
         for (auto p : prime_implicant) {
+            // for (auto p : essential_implicant) {
             p.Output();
         }
     }

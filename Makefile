@@ -3,6 +3,8 @@ CFLAGS = -O1 -g -Wall -Werror
 
 LIB = src/qm.cpp src/terms.cpp
 
+CASE = case01
+
 # Control the build verbosity
 ifeq ("$(VERBOSE)","1")
     Q := 
@@ -20,28 +22,28 @@ endif
 
 
 
-all: clean scoring
+all: clean pa1 execute scoring
 
 clean :
 	$(VECHO) " CLEAN\tpa1\n"
 	$(Q)rm pa1 2>/dev/null; true
+	$(Q)rm verifier/*.out 2>/dev/null; true
+	$(Q)rm verifier/*.blif 2>/dev/null; true
+	$(Q)rm output/*.out 2>/dev/null; true
 
 pa1 : 
 	$(VECHO) " CC\t$@\n"
 	$(Q)$(CC) $(LIB) src/main.cpp -o $@ 
 
-execute: pa1
-	$(VECHO) " EXE\t$<\n"
-	$(Q) $(PF) ./$< testcases/case00.in output/case00.out
-	$(Q) cat output/case00.out
+execute: 
+	$(VECHO) " EXE\tpa1\n"
+	$(Q) $(PF) ./pa1 testcases/$(CASE).in output/$(CASE).out
+	$(Q)cat output/$(CASE).out
+	$(Q)-cp output/*.out verifier/
 
-scoring: prepare_input execute
+scoring: 
 	$(VECHO) " SCORE\t pa1\n"
-	$(Q)cd verifier && ./verify.sh case00
-
-prepare_input: 
-	$(Q) -rm verifier/*.out
-	$(Q) -cp output/*.out verifier/
+	$(Q)cd verifier && ./verify.sh $(CASE)
 
 test:
 	$(VECHO) " TEST\t$@\n"

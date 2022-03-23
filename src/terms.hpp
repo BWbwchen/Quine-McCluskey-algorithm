@@ -20,6 +20,8 @@ private:
     int numberOfDC;
     int numberOfZero;
 
+    int value;
+
     bool used;
 
     void expand(int, vTerms);
@@ -47,6 +49,9 @@ public:
                 numberOfZero++;
             }
         }
+        if (numberOfDC == 0) {
+            value = stoi(minterms, 0, 2);
+        }
     }
 
     void Output() {
@@ -55,6 +60,7 @@ public:
 
     int getNOfDC() { return numberOfDC; }
     int getNOfOne() { return numberOfOne; }
+    int getValue() { return value; }
 
     bool diffGroup(const Terms &rhs) { return numberOfOne != rhs.numberOfOne; }
 
