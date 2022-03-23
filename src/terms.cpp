@@ -13,7 +13,7 @@ void Terms::expand(int index, vTerms ans) {
         expand(index + 1, ans);
         minterms[index] = '0';
         expand(index + 1, ans);
-        minterms[index] = '-';
+        minterms[index] = DONT_CARE;
     }
 }
 

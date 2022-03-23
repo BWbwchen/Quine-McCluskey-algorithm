@@ -38,7 +38,7 @@ public:
 
     void Generate_prime_implicant() {
         expand_terms(input_minterms, expand_minterms);
-        expand_minterms_size = expand_minterms.size();
+        // expand_minterms_size = expand_minterms.size();
 
         sort(expand_minterms.begin(), expand_minterms.end(), cmpOrder);
         remove_duplicate(expand_minterms);

@@ -21,10 +21,8 @@ void QM::group_minterms(vTerms input, vvTerms output) {
             tmp.push_back(input[i]);
         }
     }
-    if (tmp.size() != 0) {
-        tmp.push_back(input.back());
-        output.push_back(tmp);
-    }
+    tmp.push_back(input.back());
+    output.push_back(tmp);
 
     return;
 }
