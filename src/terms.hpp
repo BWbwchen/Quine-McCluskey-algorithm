@@ -36,6 +36,7 @@ public:
         minterms = "";
         used = false;
     }
+
     Terms(string s) {
         minterms = s;
         numberOfDC = numberOfOne = numberOfZero = 0;
@@ -73,18 +74,9 @@ public:
         expand(0, ans);
         return ans;
     }
-    bool operator<(const Terms &rhs) {
-        // TODO:
-        return numberOfOne < rhs.numberOfOne;
-    }
-    bool operator==(const Terms &rhs) {
-        // TODO:
-        return this->minterms == rhs.minterms;
-    }
-    bool operator!=(const Terms &rhs) {
-        // TODO:
-        return !(*this == rhs);
-    }
+    bool operator<(const Terms &rhs) { return numberOfOne < rhs.numberOfOne; }
+    bool operator==(const Terms &rhs) { return this->minterms == rhs.minterms; }
+    bool operator!=(const Terms &rhs) { return !(*this == rhs); }
 
     void use() { used = true; }
     bool is_unused() { return !used; }

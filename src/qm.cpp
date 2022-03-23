@@ -5,7 +5,6 @@ using namespace std;
 void QM::expand_terms(vTerms input, vTerms output) {
     for (auto t : input) {
         auto expanded = t.expand_dont_care();
-        // cout << expanded.size() << endl;
         output.insert(output.end(), expanded.begin(), expanded.end());
     }
 }
@@ -29,13 +28,11 @@ void QM::group_minterms(vTerms input, vvTerms output) {
 
 
 void QM::k_map(vvTerms in_implicant, vTerms p_implicant) {
-    // TODO: Need collect the unused implicant into prime implicant.
     bool done = false;
     vector<vector<Terms>> new_implicant;
     vector<Terms> tmp;
-    // int count = 1;
+
     while (!done) {
-        // cout << count++ << endl;
         done = true;
 
         for (int group = 0; group < in_implicant.size() - 1; ++group) {
@@ -114,7 +111,6 @@ void QM::petrick_method(vTerms p_implicant, vTerms e_implicant) {
         if (terms.size() == 1) {
             if (!included[terms[0]]) {
                 e_implicant.push_back(p_implicant[terms[0]]);
-                // cout << "push " << terms[0] << endl;
                 included[terms[0]] = true;
             }
             to_delete.push_back(v);
@@ -135,7 +131,6 @@ void QM::petrick_method(vTerms p_implicant, vTerms e_implicant) {
             contribution.begin();
         if (!included[max_contributor]) {
             e_implicant.push_back(p_implicant[max_contributor]);
-            // cout << "push in while " << max_contributor << endl;
             included[max_contributor] = true;
         }
         tmp = p_implicant[max_contributor].expand_dont_care();

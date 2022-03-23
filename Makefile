@@ -38,7 +38,7 @@ pa1 :
 execute: 
 	$(VECHO) " EXE\tpa1\n"
 	$(Q) $(PF) ./pa1 testcases/$(CASE).in output/$(CASE).out
-	$(Q)cat output/$(CASE).out
+	# $(Q)cat output/$(CASE).out
 	$(Q)-cp output/*.out verifier/
 
 scoring: 

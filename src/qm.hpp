@@ -23,10 +23,7 @@ private:
     friend void remove_duplicate(vTerms);
 
 public:
-    QM(int nv) {
-        // TODO: estimate the number of expanded minterms
-        number_of_variable = nv;
-    }
+    QM(int nv) { number_of_variable = nv; }
 
     void Input_minterms(int terms) {
         string tmp;
@@ -38,7 +35,6 @@ public:
 
     void Generate_prime_implicant() {
         expand_terms(input_minterms, expand_minterms);
-        // expand_minterms_size = expand_minterms.size();
 
         sort(expand_minterms.begin(), expand_minterms.end(), cmpOrder);
         remove_duplicate(expand_minterms);
@@ -51,41 +47,26 @@ public:
 
     void Minmum_covering() {
         // TODO:
-        // petrick_method(prime_implicant, essential_implicant);
-        // vector[binary represent][which minterms] = x
-        // check vector[i] == 1
-        //      yes, include vector[i]'s minterms
-        //          mark done the minterms contain vector[i]
-        // Choose the max number of minterms
-        //
+        petrick_method(prime_implicant, essential_implicant);
     }
 
-
-
     void Output_result() {
-        // int mintermsSize = 0;
-        // for (auto s : input_minterms) {
-        //     mintermsSize += (1 << s.getNOfDC());
-        //     s.Output();
-        // }
-        // cout << "========================================" << endl;
-        // if (expand_minterms_size == mintermsSize) {
-        //     cout << "Expanded successfully, total : " << mintermsSize <<
-        //     endl;
-        // } else {
-        //     cout << "Expanded failed, minterms.size() == "
-        //          << expand_minterms_size << " mintermsSize == " <<
-        //          mintermsSize
-        //          << endl;
-        // }
-        // assert(expand_minterms_size == mintermsSize);
+        // output_prime();
+        output_essential();
+    }
 
+    void output_essential() {
+        cout << get_literal_count(essential_implicant) << endl;
+        cout << essential_implicant.size() << endl;
+        for (auto p : essential_implicant) {
+            p.Output();
+        }
+    }
+
+    void output_prime() {
         cout << get_literal_count(prime_implicant) << endl;
         cout << prime_implicant.size() << endl;
-        // cout << get_literal_count(essential_implicant) << endl;
-        // cout << essential_implicant.size() << endl;
         for (auto p : prime_implicant) {
-            // for (auto p : essential_implicant) {
             p.Output();
         }
     }
