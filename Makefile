@@ -48,3 +48,11 @@ scoring:
 test:
 	$(VECHO) " TEST\t$@\n"
 	$(Q)cd verifier && ./verify.sh case00
+
+send_cases:
+	scp -r testcases u107062115@ic:~/hw1
+	scp -r verifier u107062115@ic:~/hw1
+
+send:
+	scp -r src u107062115@ic:~/hw1
+	scp Makefile u107062115@ic:~/hw1
