@@ -56,3 +56,18 @@ send_cases:
 send:
 	scp -r src u107062115@ic:~/hw1
 	scp Makefile u107062115@ic:~/hw1
+
+get_all_result: clean pa1
+	$(VECHO) " EXE ALL\tpa1\n"
+	$(Q) $(PF) ./pa1 testcases/case00.in output/case00.out
+	$(Q) $(PF) ./pa1 testcases/case01.in output/case01.out
+	$(Q) $(PF) ./pa1 testcases/case02.in output/case02.out
+	$(Q) $(PF) ./pa1 testcases/case03.in output/case03.out
+	$(Q) $(PF) ./pa1 testcases/case04.in output/case04.out
+	$(Q) $(PF) ./pa1 testcases/case05.in output/case05.out
+	$(Q) $(PF) ./pa1 testcases/case06.in output/case06.out
+	$(Q) $(PF) ./pa1 testcases/case07.in output/case07.out
+	$(Q)-cp output/*.out verifier/
+	$(VECHO) " TEST ALL\t$@\n"
+	$(Q)cd verifier && bash ./verify_all.sh
+

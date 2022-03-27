@@ -103,6 +103,7 @@ void QM::petrick_method(vTerms p_implicant, vTerms e_implicant) {
         }
     }
 
+    /*
     // find the implicant that MUST in the essential implicant
     vector<int> to_delete;
     for (auto _p : ptable) {
@@ -123,6 +124,7 @@ void QM::petrick_method(vTerms p_implicant, vTerms e_implicant) {
         }
         ptable.erase(r);
     }
+    */
 
     // find the implicant that maybe in the essential implicant
     while (!ptable.empty()) {
