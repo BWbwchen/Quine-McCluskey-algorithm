@@ -87,12 +87,12 @@ void QM::petrick_method(vTerms p_implicant, vTerms e_implicant) {
     unordered_map<int, vector<int>> ptable;
     vector<Terms> tmp;
     // implicant id -> how many value it contribute
-    vector<int> contribution;
+    vector<pair<int, int>> contribution;
     vector<bool> included(p_implicant.size(), false);
 
     for (int i = 0; i < p_implicant.size(); ++i) {
         tmp = p_implicant[i].expand_dont_care();
-        contribution.push_back(tmp.size());
+        contribution.push_back({i, tmp.size()});
         for (auto t : tmp) {
             int key = t.getValue();
             if (ptable.count(key) != 0) {
@@ -129,7 +129,20 @@ void QM::petrick_method(vTerms p_implicant, vTerms e_implicant) {
     // find the implicant that maybe in the essential implicant
     while (!ptable.empty()) {
         int max_contributor =
-            max_element(contribution.begin(), contribution.end()) -
+            max_element(contribution.begin(), contribution.end(),
+                        [&](pair<int, int> A, pair<int, int> B) {
+                            auto a = prime_implicant[A.first];
+                            auto b = prime_implicant[B.first];
+                            if (A.second == B.second) {
+                                if (a.getNOfDC() == b.getNOfDC())
+                                    // TODO: what to do here?
+                                    return a.getNOfDC() < b.getNOfDC();
+                                else
+                                    return a.getNOfDC() < b.getNOfDC();
+                            } else {
+                                return A.second < B.second;
+                            }
+                        }) -
             contribution.begin();
         if (!included[max_contributor]) {
             e_implicant.push_back(p_implicant[max_contributor]);
@@ -139,7 +152,7 @@ void QM::petrick_method(vTerms p_implicant, vTerms e_implicant) {
 
         for (auto r : tmp) {
             for (auto i : ptable[r.getValue()]) {
-                contribution[i]--;
+                contribution[i].second--;
             }
             ptable.erase(r.getValue());
         }
