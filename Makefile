@@ -3,7 +3,7 @@ CFLAGS = -O1 -g -Wall -Werror
 
 LIB = src/qm.cpp src/terms.cpp
 
-CASE = case01
+CASE = case00
 
 # Control the build verbosity
 ifeq ("$(VERBOSE)","1")
@@ -60,14 +60,27 @@ send:
 get_all_result: clean pa1
 	$(VECHO) " EXE ALL\tpa1\n"
 	$(Q) $(PF) ./pa1 testcases/case00.in output/case00.out
+	$(Q)-cp output/case00.out verifier/
+	$(Q)cd verifier && ./verify.sh case00
 	$(Q) $(PF) ./pa1 testcases/case01.in output/case01.out
+	$(Q)-cp output/case01.out verifier/
+	$(Q)cd verifier && ./verify.sh case01
 	$(Q) $(PF) ./pa1 testcases/case02.in output/case02.out
+	$(Q)-cp output/case02.out verifier/
+	$(Q)cd verifier && ./verify.sh case02
 	$(Q) $(PF) ./pa1 testcases/case03.in output/case03.out
+	$(Q)-cp output/case03.out verifier/
+	$(Q)cd verifier && ./verify.sh case03
 	$(Q) $(PF) ./pa1 testcases/case04.in output/case04.out
+	$(Q)-cp output/case04.out verifier/
+	$(Q)cd verifier && ./verify.sh case04
 	$(Q) $(PF) ./pa1 testcases/case05.in output/case05.out
+	$(Q)-cp output/case05.out verifier/
+	$(Q)cd verifier && ./verify.sh case05
 	$(Q) $(PF) ./pa1 testcases/case06.in output/case06.out
+	$(Q)-cp output/case06.out verifier/
+	$(Q)cd verifier && ./verify.sh case06
 	$(Q) $(PF) ./pa1 testcases/case07.in output/case07.out
-	$(Q)-cp output/*.out verifier/
-	$(VECHO) " TEST ALL\t$@\n"
-	$(Q)cd verifier && bash ./verify_all.sh
+	$(Q)-cp output/case07.out verifier/
+	$(Q)cd verifier && ./verify.sh case07
 
