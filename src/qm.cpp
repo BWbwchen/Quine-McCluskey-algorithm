@@ -86,6 +86,7 @@ void QM::petrick_method(vTerms p_implicant, vTerms e_implicant) {
     // value -> {id of prime implicant}
     unordered_map<int, vector<int>> ptable;
     vector<Terms> tmp;
+    vector<vector<Terms>> p_expanded;
     // implicant id -> how many value it contribute
     vector<pair<int, int>> contribution;
     vector<bool> included(p_implicant.size(), false);
@@ -93,6 +94,7 @@ void QM::petrick_method(vTerms p_implicant, vTerms e_implicant) {
     for (int i = 0; i < p_implicant.size(); ++i) {
         tmp = p_implicant[i].expand_dont_care();
         contribution.push_back({i, tmp.size()});
+        p_expanded.push_back(tmp);
         for (auto t : tmp) {
             int key = t.getValue();
             if (ptable.count(key) != 0) {
@@ -148,7 +150,7 @@ void QM::petrick_method(vTerms p_implicant, vTerms e_implicant) {
             e_implicant.push_back(p_implicant[max_contributor]);
             included[max_contributor] = true;
         }
-        tmp = p_implicant[max_contributor].expand_dont_care();
+        tmp = p_expanded[max_contributor];
 
         for (auto r : tmp) {
             for (auto i : ptable[r.getValue()]) {
