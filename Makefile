@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -O1 -g -Wall -Werror
+CFLAGS = -march=native -O3 -pipe 
 
 LIB = src/qm.cpp src/terms.cpp
 
@@ -22,7 +22,9 @@ endif
 
 
 
-all: clean pa1 execute scoring
+all: clean pa1 
+
+testing: clean pa1 execute scoring
 
 clean :
 	$(VECHO) " CLEAN\tpa1\n"
@@ -33,7 +35,7 @@ clean :
 
 pa1 : 
 	$(VECHO) " CC\t$@\n"
-	$(Q)$(CC) $(LIB) src/main.cpp -o $@ 
+	$(Q)$(CC) $(CFLAGS) $(LIB) src/main.cpp -o $@ 
 
 execute: 
 	$(VECHO) " EXE\tpa1\n"
@@ -44,10 +46,6 @@ execute:
 scoring: 
 	$(VECHO) " SCORE\t pa1\n"
 	$(Q)cd verifier && ./verify.sh $(CASE)
-
-test:
-	$(VECHO) " TEST\t$@\n"
-	$(Q)cd verifier && ./verify.sh case00
 
 send_cases:
 	scp -r testcases u107062115@ic:~/hw1
