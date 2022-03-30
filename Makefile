@@ -82,3 +82,11 @@ get_all_result: clean pa1
 	$(Q)-cp output/case07.out verifier/
 	$(Q)cd verifier && ./verify.sh case07
 
+packing:
+	-rm -rf CS3130_PA1 PA1_107062115.tar.gz 
+	mkdir CS3130_PA1
+	cp -r src/ CS3130_PA1/
+	cp Makefile CS3130_PA1
+	tar -zcvf PA1_107062115.tar.gz CS3130_PA1/
+	-rm -rf CS3130_PA1 
+
