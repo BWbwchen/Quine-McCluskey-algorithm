@@ -133,8 +133,8 @@ void QM::petrick_method(vTerms p_implicant, vTerms e_implicant) {
         int max_contributor =
             max_element(contribution.begin(), contribution.end(),
                         [&](pair<int, int> A, pair<int, int> B) {
-                            auto a = prime_implicant[A.first];
-                            auto b = prime_implicant[B.first];
+                            auto a = p_implicant[A.first];
+                            auto b = p_implicant[B.first];
                             if (A.second == B.second) {
                                 if (a.getNOfDC() == b.getNOfDC())
                                     // TODO: what to do here?
