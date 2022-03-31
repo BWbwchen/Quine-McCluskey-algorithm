@@ -129,22 +129,43 @@ void QM::petrick_method(vTerms p_implicant, vTerms e_implicant) {
     */
 
     // find the implicant that maybe in the essential implicant
+    vector<int> only_you(contribution.size(), 0);
+    for (int i = 0; i < p_expanded.size(); ++i) {
+        tmp = p_expanded[i];
+        for (auto r : tmp) {
+            if (ptable[r.getValue()].size() == 1) {
+                only_you[i]++;
+            }
+        }
+    }
     while (!ptable.empty()) {
         int max_contributor =
-            max_element(contribution.begin(), contribution.end(),
-                        [&](pair<int, int> A, pair<int, int> B) {
-                            auto a = p_implicant[A.first];
-                            auto b = p_implicant[B.first];
-                            if (A.second == B.second) {
-                                if (a.getNOfDC() == b.getNOfDC())
-                                    // TODO: what to do here?
-                                    return a.getNOfDC() < b.getNOfDC();
-                                else
-                                    return a.getNOfDC() < b.getNOfDC();
-                            } else {
-                                return A.second < B.second;
-                            }
-                        }) -
+            max_element(
+                contribution.begin(), contribution.end(),
+                [&](pair<int, int> A, pair<int, int> B) {
+                    auto a = p_implicant[A.first];
+                    auto b = p_implicant[B.first];
+                    auto a_cost = a.getNOfOne() + a.getNOfZero();
+                    auto b_cost = b.getNOfOne() + b.getNOfZero();
+                    double a_cost_ratio = (double) A.second / (double) a_cost;
+                    double b_cost_ratio = (double) B.second / (double) b_cost;
+                    if (A.second != 0 && B.second != 0) {
+                        double a_only_ratio =
+                            (double) only_you[A.first] / (double) A.second;
+                        double b_only_ratio =
+                            (double) only_you[B.first] / (double) B.second;
+                        if (A.second == B.second) {
+                            if (a.getNOfDC() != b.getNOfDC())
+                                return a.getNOfDC() < b.getNOfDC();
+                            else
+                                return a_only_ratio < b_only_ratio;
+                        } else {
+                            return A.second < B.second;
+                        }
+                    } else {
+                        return A.second < B.second;
+                    }
+                }) -
             contribution.begin();
         if (!included[max_contributor]) {
             e_implicant.push_back(p_implicant[max_contributor]);
@@ -153,6 +174,9 @@ void QM::petrick_method(vTerms p_implicant, vTerms e_implicant) {
         tmp = p_expanded[max_contributor];
 
         for (auto r : tmp) {
+            if (ptable[r.getValue()].size() == 1) {
+                only_you[max_contributor]--;
+            }
             for (auto i : ptable[r.getValue()]) {
                 contribution[i].second--;
             }

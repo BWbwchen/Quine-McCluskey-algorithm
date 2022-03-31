@@ -61,6 +61,7 @@ public:
 
     int getNOfDC() { return numberOfDC; }
     int getNOfOne() { return numberOfOne; }
+    int getNOfZero() { return numberOfZero; }
     int getValue() { return value; }
 
     bool diffGroup(const Terms &rhs) { return numberOfOne != rhs.numberOfOne; }
