@@ -149,21 +149,20 @@ void QM::petrick_method(vTerms p_implicant, vTerms e_implicant) {
                     auto b_cost = b.getNOfOne() + b.getNOfZero();
                     double a_cost_ratio = (double) A.second / (double) a_cost;
                     double b_cost_ratio = (double) B.second / (double) b_cost;
-                    if (A.second != 0 && B.second != 0) {
-                        double a_only_ratio =
-                            (double) only_you[A.first] / (double) A.second;
-                        double b_only_ratio =
-                            (double) only_you[B.first] / (double) B.second;
-                        if (A.second == B.second) {
-                            if (a.getNOfDC() != b.getNOfDC())
+
+                    if ((only_you[A.first] != 0 && only_you[B.first] != 0) ||
+                        (only_you[A.first] == 0 && only_you[B.first] == 0)) {
+                        if (A.second != 0 && B.second != 0) {
+                            if (A.second == B.second) {
                                 return a.getNOfDC() < b.getNOfDC();
-                            else
-                                return a_only_ratio < b_only_ratio;
+                            } else {
+                                return A.second < B.second;
+                            }
                         } else {
                             return A.second < B.second;
                         }
                     } else {
-                        return A.second < B.second;
+                        return only_you[A.first] < only_you[B.first];
                     }
                 }) -
             contribution.begin();
