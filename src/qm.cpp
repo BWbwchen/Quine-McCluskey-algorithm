@@ -145,10 +145,6 @@ void QM::petrick_method(vTerms p_implicant, vTerms e_implicant) {
                 [&](pair<int, int> A, pair<int, int> B) {
                     auto a = p_implicant[A.first];
                     auto b = p_implicant[B.first];
-                    auto a_cost = a.getNOfOne() + a.getNOfZero();
-                    auto b_cost = b.getNOfOne() + b.getNOfZero();
-                    double a_cost_ratio = (double) A.second / (double) a_cost;
-                    double b_cost_ratio = (double) B.second / (double) b_cost;
 
                     if ((only_you[A.first] != 0 && only_you[B.first] != 0) ||
                         (only_you[A.first] == 0 && only_you[B.first] == 0)) {
